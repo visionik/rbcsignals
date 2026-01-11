@@ -20,17 +20,17 @@ export const mdxComponents = {
   
   // Enhanced HTML elements
   h1: ({ children }: any) => (
-    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 mt-8">
+    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 mt-12 first:mt-0">
       {children}
     </h1>
   ),
   h2: ({ children }: any) => (
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-8">
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 mt-10">
       {children}
     </h2>
   ),
   h3: ({ children }: any) => (
-    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 mt-6">
+    <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 mt-6">
       {children}
     </h3>
   ),
@@ -40,12 +40,12 @@ export const mdxComponents = {
     </h4>
   ),
   p: ({ children }: any) => (
-    <p className="text-lg text-gray-700 leading-relaxed mb-4">
+    <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
       {children}
     </p>
   ),
   ul: ({ children }: any) => (
-    <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+    <ul className="list-disc list-inside space-y-2 mb-6 text-gray-700 ml-4">
       {children}
     </ul>
   ),
@@ -82,11 +82,17 @@ export const mdxComponents = {
       {children}
     </pre>
   ),
-  img: ({ src, alt }: any) => (
-    <img
-      src={src}
-      alt={alt}
-      className="rounded-lg w-full my-6 shadow-md"
-    />
-  ),
+  img: ({ src, alt }: any) => {
+    // Hide broken SVG images from WordPress
+    if (src?.includes('.svg')) {
+      return null
+    }
+    return (
+      <img
+        src={src}
+        alt={alt || ''}
+        className="rounded-lg max-w-full h-auto my-8 mx-auto"
+      />
+    )
+  },
 }

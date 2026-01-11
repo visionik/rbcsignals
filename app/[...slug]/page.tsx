@@ -97,6 +97,7 @@ function getLayoutClass(layout: string): string {
   switch (layout) {
     case 'service':
     case 'customer':
+      return 'max-w-5xl mx-auto'
     case 'about':
       return 'prose prose-lg max-w-4xl mx-auto'
     case 'post':
