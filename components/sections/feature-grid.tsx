@@ -1,7 +1,7 @@
 import { Rocket, Globe, Shield, Zap } from 'lucide-react'
 
 interface Feature {
-  icon: React.ReactNode
+  icon: React.ReactNode | string
   title: string
   description: string
 }
@@ -52,7 +52,11 @@ export function FeatureGrid({ features = defaultFeatures, columns = 4 }: Feature
             >
               <div className="flex flex-col items-center text-center">
                 <div className="mb-4 p-3 rounded-xl bg-gradient-to-br from-primary to-blue-600 text-white group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
+                  {typeof feature.icon === 'string' ? (
+                    <span className="text-3xl">{feature.icon}</span>
+                  ) : (
+                    feature.icon
+                  )}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {feature.title}
