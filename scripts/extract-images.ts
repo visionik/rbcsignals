@@ -59,6 +59,46 @@ async function downloadImage(imageUrl: string): Promise<void> {
   console.log(`  ✓ ${path.basename(outputPath)}`)
 }
 
+export async function downloadAllImages(imageUrls: string[]): Promise<void> {
+  console.log(`📷 Downloading ${imageUrls.length} images...`)
+
+  const downloadedCount = { success: 0, failed: 0, skipped: 0 }
+  const downloaded = new Set<string>()
+
+  for (const imageUrl of imageUrls) {
+    // Skip external images
+    if (!imageUrl.startsWith(BASE_URL) && !imageUrl.startsWith('/')) {
+      downloadedCount.skipped++
+      continue
+    }
+
+    // Skip duplicates
+    if (downloaded.has(imageUrl)) {
+      downloadedCount.skipped++
+      continue
+    }
+
+    try {
+      await downloadImage(imageUrl)
+      downloaded.add(imageUrl)
+      downloadedCount.success++
+
+      // Rate limiting - don't overwhelm the server
+      await sleep(200)
+    } catch (error) {
+      downloadedCount.failed++
+    }
+  }
+
+  console.log(`  ✅ Downloaded ${downloadedCount.success} images`)
+  if (downloadedCount.failed > 0) {
+    console.log(`  ⚠️  Failed: ${downloadedCount.failed}`)
+  }
+  if (downloadedCount.skipped > 0) {
+    console.log(`  ⏭️  Skipped: ${downloadedCount.skipped} (external or duplicates)`)
+  }
+}
+
 export async function downloadLogo(logoUrl: string): Promise<string> {
   console.log('🖼️  Downloading logo...')
 
@@ -84,4 +124,8 @@ export async function downloadLogo(logoUrl: string): Promise<string> {
     console.error('❌ Failed to download logo:', error)
     return '/images/logo.png' // Fallback
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

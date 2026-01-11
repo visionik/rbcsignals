@@ -40,6 +40,11 @@ tasks:
     cmds:
       - npx tsx scripts/scraper.ts --pages=homepage
 
+  scrape:full:
+    desc: Run full site scraper (Phase 2)
+    cmds:
+      - npx tsx scripts/scraper.ts
+
   scrape:watch:
     desc: Run scraper in watch mode for development
     cmds:

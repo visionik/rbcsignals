@@ -12,6 +12,8 @@ export interface ScrapedPage {
     canonical?: string
   }
   images: string[] // Image URLs found in content
+  forms?: any[] // Forms found on page
+  analytics?: any[] // Analytics scripts found on page
   publishedAt?: string
   updatedAt?: string
 }
