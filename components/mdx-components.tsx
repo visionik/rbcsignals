@@ -4,6 +4,7 @@ import { FeatureGrid } from '@/components/sections/feature-grid'
 import { ServiceCard, ServiceGrid } from '@/components/sections/service-card'
 import { Gallery } from '@/components/sections/gallery'
 import { VideoEmbed } from '@/components/sections/video-embed'
+import { TallyForm, ContactFormFallback } from '@/components/forms/tally-form'
 
 export const mdxComponents = {
   // Custom components available in MDX
@@ -14,6 +15,8 @@ export const mdxComponents = {
   ServiceGrid,
   Gallery,
   VideoEmbed,
+  TallyForm,
+  ContactFormFallback,
   
   // Enhanced HTML elements
   h1: ({ children }: any) => (
