@@ -1,0 +1,82 @@
+version: '3'
+
+set: [errexit, nounset, pipefail]
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  dev:
+    desc: Start Next.js development server
+    cmds:
+      - npm run dev
+
+  build:
+    desc: Build static site (Next.js export)
+    cmds:
+      - npm run build
+
+  preview:
+    desc: Preview built site locally
+    cmds:
+      - npx serve out
+
+  scrape:
+    desc: Run full site scraper
+    cmds:
+      - npx tsx scripts/scraper.ts
+
+  scrape:homepage:
+    desc: Run scraper for homepage only (Phase 1)
+    cmds:
+      - npx tsx scripts/scraper.ts --pages=homepage
+
+  scrape:watch:
+    desc: Run scraper in watch mode for development
+    cmds:
+      - npx tsx watch scripts/scraper.ts
+
+  ts:fmt:
+    desc: Format code with Prettier (writes)
+    cmds:
+      - npx prettier --write .
+
+  ts:fmt:check:
+    desc: Check formatting with Prettier (no writes)
+    cmds:
+      - npx prettier --check .
+
+  ts:lint:
+    desc: Lint code with ESLint
+    cmds:
+      - npx eslint app scripts
+
+  ts:type:
+    desc: TypeScript type checking
+    cmds:
+      - tsc --noEmit
+
+  check:
+    desc: Run all quality checks (pre-commit)
+    deps:
+      - ts:fmt:check
+      - ts:lint
+      - ts:type
+      - build
+
+  clean:
+    desc: Clean build artifacts and generated output
+    cmds:
+      - rm -rf out/ .next/ content/ public/images/ public/wp-content/ reports/
+
+  audit:url:
+    desc: Show URL audit report
+    cmds:
+      - jq . reports/url-audit.json
+
+  audit:migration:
+    desc: Show migration report
+    cmds:
+      - jq . reports/migration-report.json
