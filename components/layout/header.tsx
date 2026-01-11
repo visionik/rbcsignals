@@ -42,21 +42,27 @@ export function Header() {
             >
               {item.items ? (
                 <>
-                  <button className="flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-primary transition-colors">
+                  <button className="flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-primary transition-colors py-2">
                     {item.label}
                     <ChevronDown className="h-4 w-4" />
                   </button>
                   {openMenu === item.label && (
-                    <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
-                      {item.items.map((subitem, subindex) => (
-                        <Link
-                          key={subindex}
-                          href={normalizeUrl(subitem.href || '#')}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
-                        >
-                          {subitem.label}
-                        </Link>
-                      ))}
+                    <div 
+                      className="absolute top-full left-0 pt-2"
+                      onMouseEnter={() => setOpenMenu(item.label)}
+                      onMouseLeave={() => setOpenMenu(null)}
+                    >
+                      <div className="w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                        {item.items.map((subitem, subindex) => (
+                          <Link
+                            key={subindex}
+                            href={normalizeUrl(subitem.href || '#')}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
+                          >
+                            {subitem.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </>
