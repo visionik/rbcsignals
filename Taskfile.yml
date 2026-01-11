@@ -23,6 +23,13 @@ tasks:
     cmds:
       - npx serve out
 
+  deploy:
+    desc: Deploy to Cloudflare Pages
+    deps:
+      - build
+    cmds:
+      - CLOUDFLARE_ACCOUNT_ID=4405f3d856371e521d5435e19891f806 wrangler pages deploy out --project-name=rbcsignals --branch=main --commit-dirty=true
+
   scrape:
     desc: Run full site scraper
     cmds:
