@@ -116,7 +116,7 @@ async function crawlPage(url: string, retries = 0): Promise<string[]> {
         if (!fullUrl.startsWith(BASE_URL)) return
 
         // Remove fragment
-        fullUrl = fullUrl.split('#')[0]
+        fullUrl = fullUrl.split('#')[0] ?? fullUrl
 
         // Check exclusion patterns
         if (EXCLUDE_PATTERNS.some(pattern => pattern.test(fullUrl))) return

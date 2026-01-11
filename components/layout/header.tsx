@@ -1,8 +1,24 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
+import navigation from '@/content/data/navigation.json'
+
+function normalizeUrl(url: string): string {
+  try {
+    const urlObj = new URL(url)
+    return urlObj.pathname
+  } catch {
+    return url
+  }
+}
 
 export function Header() {
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
@@ -16,19 +32,44 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          <Link href="/customers" className="text-sm font-semibold text-gray-700 transition-colors hover:text-primary">
-            Customers
-          </Link>
-          <Link href="/services" className="text-sm font-semibold text-gray-700 transition-colors hover:text-primary">
-            Services
-          </Link>
-          <Link href="/about" className="text-sm font-semibold text-gray-700 transition-colors hover:text-primary">
-            About
-          </Link>
-          <Button asChild size="sm">
-            <Link href="/contact">Contact Us</Link>
-          </Button>
+        <nav className="hidden items-center gap-6 md:flex">
+          {navigation.header.menu.map((item, index) => (
+            <div
+              key={index}
+              className="relative"
+              onMouseEnter={() => item.items && setOpenMenu(item.label)}
+              onMouseLeave={() => setOpenMenu(null)}
+            >
+              {item.items ? (
+                <>
+                  <button className="flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-primary transition-colors">
+                    {item.label}
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                  {openMenu === item.label && (
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                      {item.items.map((subitem, subindex) => (
+                        <Link
+                          key={subindex}
+                          href={normalizeUrl(subitem.href || '#')}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
+                        >
+                          {subitem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <Link
+                  href={normalizeUrl(item.href || '#')}
+                  className="text-sm font-semibold text-gray-700 hover:text-primary transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </div>
+          ))}
         </nav>
 
         {/* Mobile menu button - simplified for MVP */}

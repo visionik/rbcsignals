@@ -185,6 +185,8 @@ export async function extractAllPages(urls: string[]): Promise<Map<string, Scrap
 
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
+    if (!url) continue
+    
     console.log(`  [${i + 1}/${urls.length}] ${url}`)
     
     const page = await extractPage(url)

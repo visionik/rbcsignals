@@ -37,7 +37,7 @@ interface AnalyticsReport {
   detectedScripts: Array<{
     type: string
     id?: string
-    occurrences: number
+    count: number
   }>
   pages: Array<{
     url: string

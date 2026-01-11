@@ -98,16 +98,20 @@ export function Gallery({ images, columns = 3 }: GalleryProps) {
           </button>
 
           <div className="max-w-7xl max-h-[90vh] flex flex-col items-center">
-            <img
-              src={images[lightboxIndex].src}
-              alt={images[lightboxIndex].alt}
-              className="max-w-full max-h-[80vh] object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
-            {images[lightboxIndex].caption && (
-              <p className="text-white text-center mt-4 text-lg">
-                {images[lightboxIndex].caption}
-              </p>
+            {images[lightboxIndex] && (
+              <>
+                <img
+                  src={images[lightboxIndex].src}
+                  alt={images[lightboxIndex].alt}
+                  className="max-w-full max-h-[80vh] object-contain"
+                  onClick={(e) => e.stopPropagation()}
+                />
+                {images[lightboxIndex].caption && (
+                  <p className="text-white text-center mt-4 text-lg">
+                    {images[lightboxIndex].caption}
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>
