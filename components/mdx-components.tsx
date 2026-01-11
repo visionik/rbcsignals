@@ -83,9 +83,15 @@ export const mdxComponents = {
     </pre>
   ),
   img: ({ src, alt }: any) => {
-    // Hide broken SVG images from WordPress
+    // Style SVG images appropriately
     if (src?.includes('.svg')) {
-      return null
+      return (
+        <img
+          src={src}
+          alt={alt || ''}
+          className="w-16 h-16 mx-auto my-4"
+        />
+      )
     }
     return (
       <img
